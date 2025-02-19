@@ -5,7 +5,7 @@ interface NotificationsState {
 }
 
 const initialState: NotificationsState = {
-  count: 0,
+  count: 10,
 };
 
 const notificationsSlice = createSlice({

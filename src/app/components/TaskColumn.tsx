@@ -14,7 +14,14 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ column, tasks, onTaskClick }) =
   return (
     <div className="rounded-lg p-4 w-full">
       <div className='flex flex-row items-center justify-between'>
-        <h2 className="text-lg font-semibold">{column.title}</h2>
+        <div className='flex flex-row items-center gap-4'>
+        <h2 className="text-lg font-semibold">
+          {column.title} 
+          
+        </h2>
+        <div className='h-6 w-6 rounded-full bg-gray-700 text-white flex justify-center items-center'>{tasks.length}</div>
+        </div>
+       
         <Plus className='h-4 w-4 text-gray-400'/>
       </div>
       

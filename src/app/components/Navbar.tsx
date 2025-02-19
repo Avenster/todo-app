@@ -1,14 +1,16 @@
 // src/app/components/Navbar.tsx
 
 'use client'
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useAppSelector } from '../hooks';
+import { ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const notifications = useAppSelector((state) => state.notifications.count);
+
   
   return (
     <nav className="h-14 px-4 flex items-center justify-between sticky left-0 right-0 top-0 bg-black py-12">
@@ -68,6 +70,7 @@ const Navbar = () => {
             />
           </div>
           <span className="text-white font-medium">Ankur Kaushal</span>
+          <ChevronDown className='text-gray-400' size={16} />
         </div>
       </div>
     </nav>

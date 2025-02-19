@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React, { useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../hooks';
@@ -6,40 +7,24 @@ import { moveTask } from '../store/features/kanbanSlice';
 import TaskColumn from './TaskColumn';
 import TaskModal from './TaskModal';
 import { Plus, Filter, ArrowUpDown } from 'lucide-react';
-import { useKanbanData } from '../hooks/useKanbanData';
 
 const KanbanBoard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { columns, columnOrder, tasks } = useAppSelector((state) => state.kanban);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
-  
-  const { isLoading, error } = useKanbanData();
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
-    
-    // Debug log
-    console.log('Drag end result:', {
-      draggableId,
-      source,
-      destination,
-      availableColumns: Object.keys(columns)
-    });
 
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
+    if (!destination || 
+        (destination.droppableId === source.droppableId && 
+         destination.index === source.index)) {
       return;
     }
 
     dispatch(moveTask({
-      taskId: String(draggableId),
+      taskId: draggableId,
       source: {
         droppableId: source.droppableId,
         index: source.index,
@@ -51,23 +36,8 @@ const KanbanBoard: React.FC = () => {
     }));
   };
 
-  if (isLoading) {
-    return <div className="min-h-full bg-black text-white p-6">Loading tasks...</div>;
-  }
-
-  if (error) {
-    return <div className="min-h-full bg-black text-white p-6">Error loading tasks: {error.message}</div>;
-  }
-
-  // Debug log to verify column state
-  console.log('Current columns state:', {
-    columnOrder,
-    columnsAvailable: Object.keys(columns),
-    taskCount: Object.keys(tasks).length
-  });
-
   return (
-    <div className="min-h-full bg-black text-white p-6">
+    <div className="bg-black text-white p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Design Sprint</h1>
         <div className="flex gap-4">
@@ -97,16 +67,16 @@ const KanbanBoard: React.FC = () => {
           {columnOrder.map((columnId) => {
             const column = columns[columnId];
             const columnTasks = column.taskIds
-            .map(taskId => tasks[taskId])
+              .map((taskId) => tasks[taskId])
               .filter(Boolean);
 
             return (
               <TaskColumn
-                key={columnId}
+                key={column.id}
                 column={column}
                 tasks={columnTasks}
                 onTaskClick={(taskId) => {
-                  setSelectedTask(String(taskId));
+                  setSelectedTask(taskId);
                   setIsModalOpen(true);
                 }}
               />

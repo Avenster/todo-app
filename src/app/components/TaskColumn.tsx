@@ -11,9 +11,6 @@ interface TaskColumnProps {
 }
 
 const TaskColumn: React.FC<TaskColumnProps> = ({ column, tasks, onTaskClick }) => {
-  // Debug log to verify column ID
-  console.log('Column props:', { columnId: column.id, title: column.title, tasksCount: tasks.length });
-
   return (
     <div className="rounded-lg p-4 w-full">
       <div className='flex flex-row items-center justify-between'>
@@ -21,12 +18,12 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ column, tasks, onTaskClick }) =
         <Plus className='h-4 w-4 text-gray-400'/>
       </div>
       
-      <Droppable droppableId={String(column.id)}>
+      <Droppable droppableId={String(column.id)} isDropDisabled={false}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`min-h-[145px] transition-colors ${
+            className={`min-h-[145px] mt-10 transition-colors ${
               snapshot.isDraggingOver ? 'bg-green-200/10 outline-2 outline-offset-2 outline-dashed outline-green-300 rounded-lg' : ''
             }`}
           >
@@ -41,7 +38,9 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ column, tasks, onTaskClick }) =
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={provided.draggableProps.style}
+                    style={{
+                      ...provided.draggableProps.style
+                    }}
                   >
                     <TaskCard
                       task={task}

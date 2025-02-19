@@ -8,7 +8,7 @@ import TaskColumn from './TaskColumn';
 import TaskModal from './TaskModal';
 import FilterModal, { FilterCriteria } from './FilterModal';
 import SortModal from './SortModal';
-import { Plus, SlidersVertical,ChevronDown,  ArrowUpDown } from 'lucide-react';
+import { Plus, SlidersVertical, ChevronDown, ArrowUpDown } from 'lucide-react';
 import { dummyTasks } from './dummyTasks';
 import { Task } from '../types';
 
@@ -64,9 +64,12 @@ const KanbanBoard: React.FC = () => {
   // Sort tasks based on sort criteria
   const sortTasks = (tasksArray: Task[]): Task[] => {
     if (sortCriteria === 'priority') {
-      const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+      const priorityOrder = { High: 1, Medium: 2, Low: 3 };
       return [...tasksArray].sort((a, b) => {
-        return (priorityOrder[a.priority] || 999) - (priorityOrder[b.priority] || 999);
+        return (
+          (priorityOrder[a.priority as keyof typeof priorityOrder] || 999) - 
+          (priorityOrder[b.priority as keyof typeof priorityOrder] || 999)
+        );
       });
     }
     if (sortCriteria === 'dueDate') {
@@ -80,28 +83,26 @@ const KanbanBoard: React.FC = () => {
   return (
     <div className="bg-black text-white p-6">
       <div className="flex justify-between items-center mb-6">
-        <div className='flex flex-row justify-center gap-10 items-center'>
-        <h1 className="text-2xl font-bold">Design Sprint</h1>
-        <button 
+        <div className="flex flex-row justify-center gap-10 items-center">
+          <h1 className="text-2xl font-bold">Design Sprint</h1>
+          <button 
             className="flex items-center gap-2 px-5 py-1 bg-gray-400/10 border border-white/10 rounded-md"
             onClick={() => setIsFilterOpen(true)}
           >
             <SlidersVertical size={16} />
             Filter
-            <ChevronDown className='text-gray-400' size={16} />
-
+            <ChevronDown className="text-gray-400" size={16} />
           </button>
           <button 
-            className="flex items-center gap-2 px-5 py-1 bg-gray-400/10  border border-white/10 rounded-md"
+            className="flex items-center gap-2 px-5 py-1 bg-gray-400/10 border border-white/10 rounded-md"
             onClick={() => setIsSortOpen(true)}
           >
             <ArrowUpDown size={16} />
             Sort
-            <ChevronDown className='text-gray-400' size={16} />
+            <ChevronDown className="text-gray-400" size={16} />
           </button>
-          </div>
+        </div>
         <div className="flex gap-4">
-          
           <button 
             className="flex items-center gap-2 px-4 py-2 bg-green-300/70 rounded-md"
             onClick={() => {

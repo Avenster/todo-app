@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { KanbanState, Task } from '../../types';
+// import { KanbanState, Task } from '../../types';
 
 const initialState: KanbanState = {
   tasks: {},

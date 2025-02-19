@@ -4,10 +4,7 @@ import { Settings, User, Gamepad, LayoutDashboard, AlignStartHorizontal, Unplug,
 import { IconLink } from '@tabler/icons-react';
 
 const Sidebar = () => {
-  // Set initial active item to "dashboard"
   const [activeItem, setActiveItem] = useState<'dashboard' | 'other'>('dashboard');
-
-  // Function to handle icon click, for demo we only update the dashboard icon
   const handleDashboardClick = () => {
     setActiveItem('dashboard');
   };
